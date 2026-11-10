@@ -1,0 +1,119 @@
+def read_file(filename):
+    try:
+        with open(filename, "r") as file:
+            lines = [line.strip().split(" ") for line in file] 
+
+    except OSError:
+        print("The file cannot be opened")
+    
+    return lines
+
+def seats(flights):
+    flights_dict = {}
+    
+    for flight in flights:
+        flight_ID = flight[0]
+        ROWS = int(flight[2])
+        COLS = int(flight[3])
+
+        seat_arrangment = []
+        for row_i in range(ROWS):
+            temp = []
+            for col_i in range(COLS):
+                temp.append(None)
+            seat_arrangment.append(temp)
+
+        flights_dict[flight_ID] = [seat_arrangment,ROWS*COLS]
+
+    return flights_dict
+
+
+        
+def placement(bookings, flights_dict):
+    
+    for booking in bookings:
+        opCode = booking[0]
+        Flight_ID = booking[1]
+        NameSurname  = booking[2] + " " + booking[3]
+        seating = flights_dict[Flight_ID][0]
+        flag = False
+        available_seats = flights_dict[Flight_ID][1]
+
+        if opCode == "BOOK":
+            num_of_seats = int(booking[4])
+            counter = 0
+
+            if num_of_seats <= available_seats:
+                for row in range(len(seating)):
+                    for col in range(len(seating[row])):
+                    
+                        if seating[row][col] is None and counter != num_of_seats:
+                            seating[row][col] = NameSurname
+                            flights_dict[Flight_ID][1] += -1
+                            counter += 1
+                            if counter == num_of_seats:
+                                flag = True
+                                break
+
+                        elif counter == num_of_seats:
+                            flag = True 
+                            break
+                    if flag is True:
+                        break
+            else:
+                print(*booking, "- Fail")
+                flag = True
+                continue
+                
+                    
+                    
+        else:
+
+            for row in range(len(seating)):
+                for col in range(len(seating[row])):
+                    if seating[row][col] == NameSurname:
+                        seating[row][col] = None
+                        flights_dict[Flight_ID][1] += 1
+    return flights_dict
+                    
+
+
+
+
+
+                        
+                
+                
+                
+        
+        
+        
+
+
+
+
+def main():
+    flightfile = "flights.txt"
+    bookingfile = "booking.txt"
+    bookings = read_file(bookingfile)
+    flights = read_file(flightfile)
+    flights_dict = seats(flights)
+    flights_dict = placement(bookings, flights_dict)
+
+    for key,value in flights_dict.items():
+        print(f"Flight: {key}")
+        for row_i in range(len(value[0])):
+            for col_i in range(len(value[0][row_i])):
+                NameSurname = flights_dict[key][0][row_i][col_i]
+                if NameSurname != None:
+                    print(f"{row_i+1} {col_i+1} {NameSurname}")
+
+        
+        
+
+
+
+
+    
+
+main()
