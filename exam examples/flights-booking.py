@@ -16,14 +16,14 @@ def seats(flights):
         ROWS = int(flight[2])
         COLS = int(flight[3])
 
-        seat_arrangment = []
+        seat_arrangement = []
         for row_i in range(ROWS):
             temp = []
             for col_i in range(COLS):
                 temp.append(None)
             seat_arrangment.append(temp)
 
-        flights_dict[flight_ID] = [seat_arrangment,ROWS*COLS]
+        flights_dict[flight_ID] = [seat_arrangement,ROWS*COLS]
 
     return flights_dict
 
