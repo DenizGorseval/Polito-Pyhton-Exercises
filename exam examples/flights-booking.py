@@ -21,7 +21,7 @@ def seats(flights):
             temp = []
             for col_i in range(COLS):
                 temp.append(None)
-            seat_arrangment.append(temp)
+            seat_arrangement.append(temp)
 
         flights_dict[flight_ID] = [seat_arrangement,ROWS*COLS]
 
@@ -105,11 +105,12 @@ def main():
         for row_i in range(len(value[0])):
             for col_i in range(len(value[0][row_i])):
                 NameSurname = flights_dict[key][0][row_i][col_i]
-                if NameSurname != None:
+                if NameSurname is not None:
                     print(f"{row_i+1} {col_i+1} {NameSurname}")
 
         
-        
+
+if __name__ == "__main__":
 
 
 
